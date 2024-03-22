@@ -5,7 +5,7 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using System;
 
-namespace Sprint
+namespace Run_Fast
 {
     public class ModEntry : Mod
     {
@@ -80,7 +80,7 @@ namespace Sprint
         {
             public float SprintSpeed = 3f;      // How fast you run when you press the button.
             public float EnergyCost = 2f;       // How much stamina you lose when you press the button.
-            public SButton Button = SButton.X;  // The button you press to sprint.
+            public SButton Button = SButton.V;  // The button you press to sprint.
         }
     }
 }

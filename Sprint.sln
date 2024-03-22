@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint", "Sprint\Sprint.csproj", "{827169BC-C127-4057-ADF7-E95FF17ABDE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Run Fast", "Run Fast\Run Fast.csproj", "{827169BC-C127-4057-ADF7-E95FF17ABDE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
