@@ -4,6 +4,7 @@ using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using System;
+using GenericModConfigMenu;
 
 namespace Run_Fast
 {
@@ -16,10 +17,49 @@ namespace Run_Fast
         public bool isSprinting = false;
         public override void Entry(IModHelper helper)
         {
+            config = helper.ReadConfig<ModConfig>();
             helper.Events.Input.ButtonPressed += this.OnButtonPressed;
             helper.Events.GameLoop.UpdateTicking += GameLoopOnUpdateTicking;
-            helper.Events.GameLoop.OneSecondUpdateTicked += GameLoopOnOneSecondUpdateTicked; 
-            config = helper.ReadConfig<ModConfig>();
+            helper.Events.GameLoop.OneSecondUpdateTicked += GameLoopOnOneSecondUpdateTicked;
+            helper.Events.GameLoop.GameLaunched += GameLoopOnGameLaunched;
+        }
+
+        private void GameLoopOnGameLaunched(object sender, GameLaunchedEventArgs e)
+        {
+            var configMenu = this.Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+            if (configMenu is null)
+                return;
+            configMenu.Register(
+                mod: this.ModManifest,
+                reset: () => this.config = new ModConfig(),
+                save: () => this.Helper.WriteConfig(this.config)
+            );
+            // Add the mod options to the mod menu.
+            // First, KeyBind
+            configMenu.AddKeybind(
+                mod: this.ModManifest,
+                name: () => "Sprint Key",
+                tooltip: () => "The key you press to sprint.",
+                getValue: () => config.Button,  
+                setValue: value => config.Button = value
+            );
+            // Second, Energy per Second
+            configMenu.AddNumberOption(
+                mod: this.ModManifest,
+                name: () => "Energy Cost",
+                tooltip: () => "How much stamina you lose per second while sprinting.",
+                getValue: () => config.EnergyCost,
+                setValue: value => config.EnergyCost = value
+            );
+            // Third, How Fast
+            configMenu.AddNumberOption(
+                mod: this.ModManifest,
+                name: () => "Sprint Speed",
+                tooltip: () => "How fast you run while sprinting., IE the Multiplier. Higher Values can cause bugs.",
+                getValue: () => config.SprintSpeed,
+                setValue: value => config.SprintSpeed = value
+            );
+            
         }
 
         private void GameLoopOnOneSecondUpdateTicked(object sender, OneSecondUpdateTickedEventArgs e)
